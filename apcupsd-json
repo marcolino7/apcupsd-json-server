@@ -50,14 +50,14 @@ def fetch_ups_data():
       data = ups_read(sock)
     except socket.error as err:
       print ("caught exception from apcupsd: %s") % err
-      raise RuntimeError, "couldn't read data on port %s: %s" % (w, err)
+      raise RuntimeError, ("couldn't read data on port %s: %s") % (w, err)
 
     try:
       formatted = ups_format(data)
       upses.append(formatted)
     except (AttributeError, KeyError, ValueError) as err:
       print ("caught exception from format: %s") % err
-      raise RuntimeError, "couldn't format response from apcupsd: %s" % err
+      raise RuntimeError, ("couldn't format response from apcupsd: %s") % err
 
   return {
     "status": u"\ud83d\udc4d",
@@ -68,7 +68,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
   def do_GET(self):
     response = None
     try:
-      if self.path != "/": raise ValueError, "not a valid endpoint"
+      if self.path != "/": raise ValueError, ("not a valid endpoint")
       response = fetch_ups_data()
       self.send_response(200)
     except (ValueError, RuntimeError) as err:
