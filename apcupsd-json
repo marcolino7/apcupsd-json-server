@@ -49,14 +49,14 @@ def fetch_ups_data():
     try:
       data = ups_read(sock)
     except socket.error as err:
-      print "caught exception from apcupsd: %s" % err
+      print (caught exception from apcupsd: %s) % err
       raise RuntimeError, "couldn't read data on port %s: %s" % (w, err)
 
     try:
       formatted = ups_format(data)
       upses.append(formatted)
     except (AttributeError, KeyError, ValueError) as err:
-      print "caught exception from format: %s" % err
+      print (caught exception from format: %s) % err
       raise RuntimeError, "couldn't format response from apcupsd: %s" % err
 
   return {
@@ -92,8 +92,8 @@ handler = RequestHandler
 httpd = TCPServer((args.listen, args.port), handler)
 
 try:
-  print "listening on %s:%s\nwatching upses running on port %s" % (args.listen, args.port, args.watch)
+  print (listening on %s:%s\nwatching upses running on port %s) % (args.listen, args.port, args.watch)
   httpd.serve_forever()
 finally:
-  print "cleaning up"
+  print (cleaning up)
   httpd.server_close()
